@@ -10,13 +10,13 @@ package projetopsc;
  */
 public class Jogador extends Personagem {
     private String usuario;
-    private int pontuacao;
+    private int pontuacao = 0;
+    private int vida = 100;
     
-    public Jogador(String nome, boolean status, int vida, String usuario, int pontuacao)
+    public Jogador(String nome, String usuario)
     {
         super(nome);
         this.usuario = usuario;
-        this.pontuacao = pontuacao;
     }
 
     public void setUsuario(String usuario) {
@@ -27,11 +27,19 @@ public class Jogador extends Personagem {
         this.pontuacao = pontuacao;
     }
 
+    public void setVida(int vida) {
+        this.vida = vida;
+    }
+
     public String getUsuario() {
         return usuario;
     }
 
     public int getPontuacao() {
         return pontuacao;
+    }
+
+    public int getVida() {
+        return vida;
     }
 }

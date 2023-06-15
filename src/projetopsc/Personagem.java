@@ -11,7 +11,6 @@ package projetopsc;
 public class Personagem {
     private String nome;
     private boolean status = false;
-    private int vida = 100;
     
     public Personagem(String nome)
     {
@@ -26,10 +25,6 @@ public class Personagem {
         this.status = status;
     }
 
-    public void setVida(int vida) {
-        this.vida = vida;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -38,7 +33,4 @@ public class Personagem {
         return status;
     }
 
-    public int getVida() {
-        return vida;
-    }
 }

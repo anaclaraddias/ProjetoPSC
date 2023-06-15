@@ -11,28 +11,30 @@ package projetopsc;
 public class Alternativa {
     private String enunciado;
     private boolean status;
-    private Pergunta pergunta;
     
-    public Alternativa(String enunciado, boolean status, Pergunta pergunta)
+    public Alternativa(String enunciado, boolean status)
     {
         this.enunciado = enunciado;
         this.status = status;
-        this.pergunta = pergunta;
     }
 
-    public void setEnunciado(String enunciado) {
+    public void setEnunciado(String enunciado) 
+    {
         this.enunciado = enunciado;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(boolean status) 
+    {
         this.status = status;
     }
-
-    public String getEnunciado() {
+    
+    public String getEnunciado() 
+    {
         return enunciado;
     }
 
-    public boolean getStatus() {
+    public boolean getStatus() 
+    {
         return status;
     }
 }
