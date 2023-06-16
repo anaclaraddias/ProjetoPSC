@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 import java.io.FileWriter;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -25,6 +24,8 @@ public class ProjetoPSC {
         ArrayList<String> enunciados = new ArrayList();
         ArrayList<Pergunta> perguntas = new ArrayList();
         ArrayList<Personagem> personagens = new ArrayList();
+        
+        perguntas(enunciados, perguntas);
         
         System.out.println("Bem vindo ao QuizMaster! \n");
         
@@ -44,8 +45,7 @@ public class ProjetoPSC {
                 nomesPersonagens.add("Drew");
 
                 inserirPersonagens(nomesPersonagens, personagens);
-                perguntas(enunciados, perguntas);
-
+                
                 System.out.println("Personagens:");
 
                 for(Personagem personagem : personagens){
@@ -71,25 +71,40 @@ public class ProjetoPSC {
             } else{
                 System.out.println("digite uma opcao valida");
             }
+        } 
+    }
+    
+    public static void inserirTxt(ArrayList<Pergunta> perguntas)
+    {   
+        try{
+            FileWriter limpar = new FileWriter("Perguntas.txt");
+            limpar.write("");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         
-//        try (FileWriter writer = new FileWriter("Perguntas.txt")) {
-//            String texto = "teste";
-//            writer.write(texto);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        try (FileReader reader = new FileReader("Perguntas.txt")) {
-//              int teste;
-//              while ((teste = reader.read()) != -1) {
-//                  System.out.print((char) teste);
-//              }
-//          } catch (IOException e) {
-//              e.printStackTrace();
-//          }
-//        
-        
+        for(Pergunta pergunta: perguntas){
+            try{
+                FileWriter writer = new FileWriter("Perguntas.txt", true);
+                writer.write(pergunta.getEnunciado());
+                
+                for(Alternativa alternativa : pergunta.getAlternativas()){
+                    if(alternativa.getStatus()){
+                        String enunciado = alternativa.getEnunciado() + "*";
+                        writer.write("//" + enunciado);
+                    } else {
+                        writer.write("//" + alternativa.getEnunciado());
+                    }
+                }
+                
+                writer.write("\n");
+                
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+        }
     }
     
     public static void inserirPersonagens(
@@ -344,6 +359,8 @@ public class ProjetoPSC {
             )
         );
         enunciados.clear();
+        
+        inserirTxt(perguntas);
     }
     
     public static ArrayList<Jogador> inserirJogadores(Scanner scanner)
@@ -533,8 +550,24 @@ public class ProjetoPSC {
            
            System.out.println("-=-=-=-=-");
            
+           if(jogador1Acertou == false || jogador2Acertou == false){
+               String alternativaCerta = "";
+               
+               for(Alternativa alternativa : pergunta.getAlternativas()){
+                    if(alternativa.getStatus()){
+                        alternativaCerta = alternativa.getEnunciado();
+                    }
+                }
+               
+               System.out.println("a alternativa certa era: " + alternativaCerta);
+               
+               System.out.println("-=-=-=-=-");
+           }
+           
            System.out.println("vida de " + jogador1.getNome() + ": " + jogador1.getVida());
            System.out.println("vida de " + jogador2.getNome() + ": " + jogador2.getVida());
+           
+           System.out.println("-=-=-=-=-");
         }
     }
 }
