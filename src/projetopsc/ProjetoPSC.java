@@ -418,15 +418,18 @@ public class ProjetoPSC {
            if(perguntas.isEmpty() || jogador1.getVida() <= 0 || jogador2.getVida() <= 0){
                System.out.println("\nGAME OVER");
                
-               if(jogador1.getVida() <= 0){
+               if(jogador1.getVida() == 0 && jogador2.getVida() == 0){
+                   System.out.println("os dois jogadores perderam");
+               } else if(jogador1.getVida() <= 0){
                    System.out.println(jogador2.getNome() + " venceu o jogo! - Parabens " + jogador2.getUsuario() + "!");
                } else if(jogador2.getVida() <= 0){
                    System.out.println(jogador1.getNome() + " venceu o jogo! - Parabens " + jogador1.getUsuario() + "!");
-               } else {
-                   if(jogador1.getVida() > jogador2.getVida()){
-                       System.out.println(jogador1.getNome() + " venceu o jogo! - Parabens " + jogador1.getUsuario() + "!");
-                   } else {
+               } else { 
+                   System.out.println("\nfim das perguntas\n");
+                   if(jogador2.getVida() > jogador1.getVida()){
                        System.out.println(jogador2.getNome() + " venceu o jogo! - Parabens " + jogador2.getUsuario() + "!");
+                   } else if(jogador1.getVida() > jogador2.getVida()){
+                       System.out.println(jogador1.getNome() + " venceu o jogo! - Parabens " + jogador1.getUsuario() + "!");
                    }
                }
                
