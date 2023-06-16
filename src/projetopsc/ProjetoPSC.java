@@ -21,65 +21,121 @@ public class ProjetoPSC {
         Scanner scanner = new Scanner(System.in);
         Random aleatorio = new Random();
         
+        ArrayList<String> nomesPersonagens = new ArrayList();
         ArrayList<String> enunciados = new ArrayList();
         ArrayList<Pergunta> perguntas = new ArrayList();
         ArrayList<Personagem> personagens = new ArrayList();
         
         System.out.println("Bem vindo ao QuizMaster! \n");
         
-        Personagem personagem1 = new Personagem("Tonya");
-        personagens.add(personagem1);
-        Personagem personagem2 = new Personagem("Rochelle");
-        personagens.add(personagem2);
-        Personagem personagem3 = new Personagem("Julius");
-        personagens.add(personagem3);
-        Personagem personagem4 = new Personagem("Chris");
-        personagens.add(personagem4);
-        Personagem personagem5 = new Personagem("Drew");
-        personagens.add(personagem5);
-        
-        
-        System.out.println("Personagens:");
-        
-        for(Personagem personagem : personagens){
-            System.out.println("- " + personagem.getNome());
+        while(true){
+            System.out.println("Escolha uma das seguintes opcoes:\n");
+            System.out.println("1 - iniciar o jogo");
+            System.out.println("2 - informacoes dos desenvolvedores");
+            System.out.println("3 - explicacao do jogo");
+            System.out.println("4 - sair");
+            int res = scanner.nextInt();
+            
+            if(res == 1){
+                nomesPersonagens.add("Tonya");
+                nomesPersonagens.add("Rochelle");
+                nomesPersonagens.add("Julius");
+                nomesPersonagens.add("Chris");
+                nomesPersonagens.add("Drew");
+
+                inserirPersonagens(nomesPersonagens, personagens);
+                perguntas(enunciados, perguntas);
+
+                System.out.println("Personagens:");
+
+                for(Personagem personagem : personagens){
+                    System.out.println("- " + personagem.getNome());
+                }
+                
+                ArrayList<Jogador> result = inserirJogadores(scanner);
+                
+                Jogador jogador1 = result.get(0);
+                Jogador jogador2 = result.get(1);
+                
+                jogo(perguntas, aleatorio, jogador1, jogador2, scanner);
+            } else if(res == 2){
+                System.out.println("Desenvolvedores:\n");
+                System.out.println("Ana Clara Domingos Dias Silva | 12316965");
+                System.out.println("Ana Caroline Valerio Moreira | 12318791");
+                System.out.println("Gabriela Marques dos Santos Nascimento | 12220159");
+                System.out.println("Joao Eduardo de Souza Lima Baquim | 12319730");
+            } else if(res == 3){
+                System.out.println("Jogo de perguntas e respostas sobre programacao / modelagem de software, o jogo apresenta 15 perguntas e funciona em turnos dividos por 2 jogadores");
+            } else if(res == 4){
+                break;
+            } else{
+                System.out.println("digite uma opcao valida");
+            }
         }
         
-//        Jogador jogador1;
-//        
-//        while(true){
-//            System.out.println("\n Jogador 1, escolha seu personagem ->");
-//            String jogador1_personagem = scanner.nextLine();
-//            
-//            if(jogador1_personagem.equals("Tonya") || jogador1_personagem.equals("Rochelle") || jogador1_personagem.equals("Julius") || jogador1_personagem.equals("Chris") || jogador1_personagem.equals("Drew")){
-//                System.out.println("\n Jogador 1, digite seu nome ->");
-//                String usuario1 = scanner.nextLine();
-//                jogador1 = new Jogador(jogador1_personagem, usuario1);
-//                break;
-//            } 
-//            
-//            System.out.println("escolha um personagem valido");
+//        try (FileWriter writer = new FileWriter("Perguntas.txt")) {
+//            String texto = "teste";
+//            writer.write(texto);
+//        } catch (IOException e) {
+//            e.printStackTrace();
 //        }
-//        
-//        Jogador jogador2;
-//        
-//        while(true){
-//            System.out.println("\n Jogador 2, escolha seu personagem ->");
-//            String jogador1_personagem = scanner.nextLine();
-//            
-//            if(jogador1_personagem.equals("Tonya") || jogador1_personagem.equals("Rochelle") || jogador1_personagem.equals("Julius") || jogador1_personagem.equals("Chris") || jogador1_personagem.equals("Drew")){
-//                System.out.println("\n Jogador 1, digite seu nome ->");
-//                String usuario1 = scanner.nextLine();
-//                jogador2 = new Jogador(jogador1_personagem, usuario1);
-//                break;
-//            } 
-//            
-//            System.out.println("escolha um personagem valido");
-//        }
-//        
-//        System.out.println("\n" + jogador1.getUsuario() + " voce comeca!");
 
+//        try (FileReader reader = new FileReader("Perguntas.txt")) {
+//              int teste;
+//              while ((teste = reader.read()) != -1) {
+//                  System.out.print((char) teste);
+//              }
+//          } catch (IOException e) {
+//              e.printStackTrace();
+//          }
+//        
+        
+    }
+    
+    public static void inserirPersonagens(
+        ArrayList<String> nomes, 
+        ArrayList<Personagem> personagens
+    )
+    {
+        for(String nome : nomes){
+            Personagem personagem = new Personagem(nome);
+            personagens.add(personagem);
+        }
+    }
+    
+    public static Pergunta inserirPerguntas(
+        ArrayList<String> enunciados, 
+        String enunciado_pergunta
+    )
+    {
+        ArrayList<Alternativa> alternativas = new ArrayList();
+        
+        for(String enunciado : enunciados){
+            boolean status = false;
+            
+            if(enunciado.contains("*")){
+                status = true;
+                
+                enunciado = enunciado.substring(0, enunciado.length() - 1);
+            }
+            
+            Alternativa alternativa = new Alternativa(enunciado, status);
+            alternativas.add(alternativa);
+        }
 
+        Pergunta pergunta = new Pergunta(
+            enunciado_pergunta, 
+            alternativas
+        );
+
+        return pergunta;
+    }
+    
+    public static void perguntas(
+        ArrayList<String> enunciados, 
+        ArrayList<Pergunta> perguntas
+    )
+    {
         enunciados.add("Double");
         enunciados.add("Integer");
         enunciados.add("Random*");
@@ -88,7 +144,7 @@ public class ProjetoPSC {
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "Qual classe e usada para gerar numeros aleatórios?"
+                "Qual classe e usada para gerar numeros aleatorios?"
             )
         );
         enunciados.clear();
@@ -96,7 +152,7 @@ public class ProjetoPSC {
 
         enunciados.add("new*");
         enunciados.add("instance");
-        enunciados.add("System*");
+        enunciados.add("System");
         enunciados.add("void");
 
         perguntas.add(
@@ -116,7 +172,7 @@ public class ProjetoPSC {
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "Voce precisa gerar valores inteiros aleatórios entre 0 e 80 (incluindo 0 e 80). Que instrucao voce deve usar?"
+                "Voce precisa gerar valores inteiros aleatorios entre 0 e 80 (incluindo 0 e 80). Que instrucao voce deve usar?"
             )
         );
         enunciados.clear();
@@ -172,7 +228,7 @@ public class ProjetoPSC {
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "Qual é o nome do pacote que contém a classe Math?"
+                "Qual e o nome do pacote que contem a classe Math?"
             )
         );
         enunciados.clear();
@@ -181,12 +237,12 @@ public class ProjetoPSC {
         enunciados.add("getShirtSize()*");
         enunciados.add("cor");
         enunciados.add("tamanho");
-        enunciados.add("preço");
+        enunciados.add("preco");
 
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "Há vários campos e métodos em uma classe Shirt. Qual das seguintes opções poderia ser um método da classe Shirt?"
+                "Ha varios campos e metodos em uma classe Shirt. Qual das seguintes opcoes poderia ser um metodo da classe Shirt?"
             )
         );
         enunciados.clear();
@@ -200,7 +256,7 @@ public class ProjetoPSC {
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "Qual método é usado para eventos de clique do mouse?"
+                "Qual metodo e usado para eventos de clique do mouse?"
             )
         );
         enunciados.clear();
@@ -214,35 +270,35 @@ public class ProjetoPSC {
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "Qual é a maneira correta de converter um tipo long (longo) em um tipo int (inteiro)?"
+                "Qual e a maneira correta de converter um tipo long (longo) em um tipo int (inteiro)?"
             )
         );
         enunciados.clear();
         
         
-        enunciados.add("instrução if/else");
-        enunciados.add("instrução switch");
-        enunciados.add("instrução if");
+        enunciados.add("instrucao if/else");
+        enunciados.add("instrucao switch");
+        enunciados.add("instrucao if");
         enunciados.add("Looping*");
 
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "Você deseja calcular a soma de todas as marcas de determinado assunto. Qual método você escolherá?"
+                "Voce deseja calcular a soma de todas as marcas de determinado assunto. Qual metodo voce escolhera?"
             )
         );
         enunciados.clear();
         
         
         enunciados.add("Objetos");
-        enunciados.add("Variáveis de local*");
+        enunciados.add("Variaveis de local*");
         enunciados.add("Strings");
-        enunciados.add("Variáveis de instância");
+        enunciados.add("Variaveis de instancia");
 
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "O que é armazenado na memória de pilha?"
+                "O que e armazenado na memoria de pilha?"
             )
         );
         enunciados.clear();
@@ -256,7 +312,7 @@ public class ProjetoPSC {
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "Qual dos tipos de dados a seguir podem ser usados em uma instrução switch?"
+                "Qual dos tipos de dados a seguir podem ser usados em uma instrucao switch?"
             )
         );
         enunciados.clear();
@@ -270,7 +326,7 @@ public class ProjetoPSC {
         perguntas.add(
             inserirPerguntas(
                 enunciados, 
-                "Qual é a ordem correta das etapas no Modelo Espiral de Desenvolvimento?"
+                "Qual e a ordem correta das etapas no Modelo Espiral de Desenvolvimento?"
             )
         );
         enunciados.clear();
@@ -288,56 +344,197 @@ public class ProjetoPSC {
             )
         );
         enunciados.clear();
-        
-
-//        try (FileWriter writer = new FileWriter("Perguntas.txt")) {
-//            String texto = "teste";
-//            writer.write(texto);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        try (FileReader reader = new FileReader("Perguntas.txt")) {
-//              int teste;
-//              while ((teste = reader.read()) != -1) {
-//                  System.out.print((char) teste);
-//              }
-//          } catch (IOException e) {
-//              e.printStackTrace();
-//          }
-//        
-        
-        System.out.println(perguntas.size());
-        
-//        System.out.println(aleatorio.nextInt(16));
     }
     
-    public static Pergunta inserirPerguntas(
-        ArrayList<String> enunciados, 
-        String enunciado_pergunta
+    public static ArrayList<Jogador> inserirJogadores(Scanner scanner)
+    {
+        Jogador jogador1;
+       
+        while(true){
+            System.out.println("\n jogador 1, escolha seu personagem ->");
+            String jogador_personagem = scanner.next();
+
+            if(jogador_personagem.equals("Tonya") || jogador_personagem.equals("Rochelle") || jogador_personagem.equals("Julius") || jogador_personagem.equals("Chris") || jogador_personagem.equals("Drew")){
+                System.out.println("\n jogador 1, digite seu nome ->");
+                String usuario = scanner.next();
+                jogador1 = new Jogador(jogador_personagem, usuario);
+                break;
+            } 
+
+            System.out.println("\n escolha um personagem valido");
+        }
+        
+        Jogador jogador2;
+
+        while(true){
+            System.out.println("\n jogador 2, escolha seu personagem ->");
+            String jogador_personagem = scanner.next();
+
+            if(!jogador_personagem.equals(jogador1.getNome())){
+                if(jogador_personagem.equals("Tonya") || jogador_personagem.equals("Rochelle") || jogador_personagem.equals("Julius") || jogador_personagem.equals("Chris") || jogador_personagem.equals("Drew")){
+                    System.out.println("\n jogador 2, digite seu nome ->");
+                    String usuario1 = scanner.next();
+                    jogador2 = new Jogador(jogador_personagem, usuario1);
+                    break;
+                } 
+            }
+
+            System.out.println("\n escolha um personagem valido");
+        }
+        
+        ArrayList<Jogador> result = new ArrayList<Jogador>();
+        result.add(jogador1);
+        result.add(jogador2);
+
+        return result;
+    }
+    
+    public static void jogo(
+        ArrayList<Pergunta> perguntas, 
+        Random aleatorio, 
+        Jogador jogador1, 
+        Jogador jogador2, 
+        Scanner scanner
     )
     {
-        ArrayList<Alternativa> alternativas = new ArrayList();
-        
-        for(String enunciado : enunciados){
-            boolean status = false;
-            
-            if(enunciado.contains("*")){
-                status = true;
+        while(true){
+           if(perguntas.isEmpty() || jogador1.getVida() <= 0 || jogador2.getVida() <= 0){
+               System.out.println("\nGAME OVER");
+               
+               if(jogador1.getVida() <= 0){
+                   System.out.println(jogador2.getNome() + " venceu o jogo!");
+               } else if(jogador2.getVida() <= 0){
+                   System.out.println(jogador1.getNome() + " venceu o jogo!");
+               } else {
+                   if(jogador1.getVida() > jogador2.getVida()){
+                       System.out.println(jogador1.getNome() + " venceu o jogo!");
+                   } else {
+                       System.out.println(jogador2.getNome() + " venceu o jogo!");
+                   }
+               }
+               
+               break;
+           }
+           
+           int index = aleatorio.nextInt(perguntas.size());
+           
+           Pergunta pergunta = perguntas.get(index);
+           perguntas.remove(index);
+           
+           System.out.println("\n" + pergunta.getEnunciado() + "\n");
+           
+           for(Alternativa alternativa : pergunta.getAlternativas()){
+               System.out.println("- " + alternativa.getEnunciado());
+           }
+           
+           if(perguntas.size() == 14){
+               System.out.println("\n" + jogador1.getNome() + " voce comeca! (selecione de 1 a 4)");
+           } else {
+               System.out.println("\n" + jogador1.getNome() + " qual sua reposta? (selecione de 1 a 4)");
+           }
+           int resposta1 = scanner.nextInt();
+           
+           while(true){
+                if(resposta1 >= 1 && resposta1 <= 4){
+                    break;
+                }
                 
-                enunciado = enunciado.substring(0, enunciado.length() - 1);
-            }
-            
-            Alternativa alternativa = new Alternativa(enunciado, status);
-            alternativas.add(alternativa);
-        }
+               System.out.println("digite uma opcao valida ->");
+               resposta1 = scanner.nextInt();
+           }
+           
+           
+           System.out.println("\n" + jogador2.getNome() + " sua vez, qual a sua reposta? (selecione de 1 a 4)");
+           int resposta2 = scanner.nextInt();
+           
+           while(true){
+                if(resposta2 >= 1 && resposta2 <= 4){
+                    break;
+                }
+                
+               System.out.println("digite uma opcao valida ->");
+               resposta2 = scanner.nextInt();
+           }
+           boolean responderNovamente = false;
+           
+           System.out.println("\nvoces tem certeza da reposta? (s/n) - so e possivel alterar a reposta uma vez");
+           String res = scanner.next();
+           
+           while(true){
+               if(res.equals("s")){
+                   break;
+               } else if(res.equals("n")){
+                   responderNovamente = true;
+                   break;
+               }
+               
+               System.out.println("digite uma opcao valida ->");
+               res = scanner.next();
+           }
+           
+           if(responderNovamente){
+                System.out.println("\n" + pergunta.getEnunciado() + "\n");
+           
+                for(Alternativa alternativa : pergunta.getAlternativas()){
+                    System.out.println("- " + alternativa.getEnunciado());
+                }
+                
+                System.out.println(jogador1.getNome() + " qual sua nova reposta? (selecione de 1 a 4)");
+                resposta1 = scanner.nextInt();
+                
+                while(true){
+                    if(resposta1 >= 1 && resposta1 <= 4){
+                        break;
+                    }
 
-        Pergunta pergunta = new Pergunta(
-            enunciado_pergunta, 
-            alternativas
-        );
-        alternativas.clear();
-        
-        return pergunta;
+                   System.out.println("digite uma opcao valida ->");
+                   resposta1 = scanner.nextInt();
+                }
+                
+                System.out.println(jogador2.getNome() + " qual sua nova reposta? (selecione de 1 a 4)");
+                resposta2 = scanner.nextInt();
+                
+                while(true){
+                    if(resposta2 >= 1 && resposta2 <= 4){
+                        break;
+                    }
+
+                   System.out.println("digite uma opcao valida ->");
+                   resposta2 = scanner.nextInt();
+               }
+           }
+           
+           boolean jogador1Acertou = true;
+           boolean jogador2Acertou = true;
+           
+           if(!pergunta.getAlternativas().get(resposta1 - 1).getStatus()){
+               jogador1.setVida(jogador1.getVida() - 10);
+               jogador1Acertou = false;
+           }
+           
+           if(!pergunta.getAlternativas().get(resposta2 - 1).getStatus()){
+               jogador2.setVida(jogador2.getVida() - 10);
+               jogador2Acertou = false;
+           }
+           
+           System.out.println("-=-=-=-=-");
+           
+           if(jogador1Acertou){
+            System.out.println(jogador1.getNome() + " acertou!");
+           } else {
+            System.out.println(jogador1.getNome() + " errou!");
+           }
+           
+           if(jogador2Acertou){
+            System.out.println(jogador2.getNome() + " acertou!");
+           } else {
+            System.out.println(jogador2.getNome() + " errou!");
+           }
+           
+           System.out.println("-=-=-=-=-");
+           
+           System.out.println("vida de " + jogador1.getNome() + ": " + jogador1.getVida());
+           System.out.println("vida de " + jogador2.getNome() + ": " + jogador2.getVida());
+        }
     }
 }
