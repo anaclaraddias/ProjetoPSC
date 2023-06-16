@@ -15,9 +15,9 @@ Um jogo de perguntas e repostas sobre programação e modelagem de software, ond
 <br/>
 
 ## Diagrama de classes 
-<img src="res/diagrama.jpeg">
+<img src="res/diagrama.png">
 
 <br/>
 
 ## Modelo Entidade Relacionamento da base de dados
-
+<img src="res/DER.png">
